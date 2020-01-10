@@ -2,7 +2,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0)")}
 
 Name:           xcb-proto
-Version:        1.11
+Version:        1.12
 Release:        1%{?dist}
 Summary:        XCB protocol descriptions
 
@@ -46,6 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/xcbgen
 
 %changelog
+* Thu Jan 19 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 1.12-1
+- xcb-proto 1.12 (#1414714)
+
 * Wed Oct 01 2014 Adam Jackson <ajax@redhat.com> 1.11-1
 - xcb-proto 1.11
 
