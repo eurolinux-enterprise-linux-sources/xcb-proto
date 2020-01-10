@@ -2,8 +2,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0)")}
 
 Name:           xcb-proto
-Version:        1.7
-Release:        2%{?dist}
+Version:        1.8
+Release:        3%{?dist}
 Summary:        XCB protocol descriptions
 
 Group:          Development/Libraries
@@ -46,6 +46,18 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/xcbgen
 
 %changelog
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1.8-3
+- Mass rebuild 2013-12-27
+
+* Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
+* Tue Oct 16 2012 Adam Jackson <ajax@redhat.com> 1.8-1
+- xcb-proto 1.8
+
+* Tue Sep 04 2012 Adam Jackson <ajax@redhat.com> 1.7-3
+- Backport 5a4e42f3 and d42d7918 to fix DRI2 and XKB, respectively.
+
 * Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
