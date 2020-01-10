@@ -2,8 +2,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0)")}
 
 Name:           xcb-proto
-Version:        1.6
-Release:        1%{?dist}
+Version:        1.7
+Release:        2%{?dist}
 Summary:        XCB protocol descriptions
 
 Group:          Development/Libraries
@@ -11,7 +11,6 @@ License:        MIT
 URL:            http://xcb.freedesktop.org/
 Source0:        http://xcb.freedesktop.org/dist/%{name}-%{version}.tar.bz2
 BuildArch:      noarch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	python
 Requires:       pkgconfig
@@ -47,6 +46,18 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/xcbgen
 
 %changelog
+* Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Wed Jan 11 2012 Adam Jackson <ajax@redhat.com> 1.7-1
+- xcb-proto 1.7
+
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Thu Jul 22 2010 David Malcolm <dmalcolm@redhat.com> - 1.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
+
 * Wed Jan 13 2010 Dave Airlie <airlied@redhat.com> 1.6-1
 - xcb-proto 1.6
 
