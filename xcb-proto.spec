@@ -1,18 +1,17 @@
 %define debug_package %{nil}
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0)")}
 
 Name:           xcb-proto
-Version:        1.12
-Release:        2%{?dist}
+Version:        1.13
+Release:        1%{?dist}
 Summary:        XCB protocol descriptions
 
 Group:          Development/Libraries
 License:        MIT
-URL:            http://xcb.freedesktop.org/
-Source0:        http://xcb.freedesktop.org/dist/%{name}-%{version}.tar.bz2
+URL:            https://xcb.freedesktop.org/
+Source0:        https://xcb.freedesktop.org/dist/%{name}-%{version}.tar.bz2
 BuildArch:      noarch
 
-BuildRequires:	python
+BuildRequires:	python2-devel
 Requires:       pkgconfig
 
 %description
@@ -33,9 +32,6 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
 %defattr(-,root,root,-)
 %doc COPYING NEWS README TODO doc/xml-xcb.txt
@@ -43,9 +39,24 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/xcb/
 %{_datadir}/xcb/*.xsd
 %{_datadir}/xcb/*.xml
-%{python_sitelib}/xcbgen
+%{python2_sitelib}/xcbgen
 
 %changelog
+* Mon Mar 05 2018 Adam Jackson <ajax@redhat.com> - 1.13-1
+- xcb-proto 1.13
+
+* Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Fri Aug 11 2017 Iryna Shcherbina <ishcherb@redhat.com> - 1.12-5
+- Add a build-time dependency on python2-devel
+
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.12-2
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
