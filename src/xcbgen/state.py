@@ -32,9 +32,6 @@ class Namespace(object):
         self.root = parse(filename).getroot()
         self.header = self.root.get('header')
         self.ns = self.header + ':'
-
-        # Events
-        self.events = {}
         
         # Get root element attributes
         if self.root.get('extension-xname', False): 
@@ -48,17 +45,6 @@ class Namespace(object):
             self.is_ext = False
             self.ext_name = ''
             self.prefix = ('xcb',)
-
-    def add_event(self, id, name, item):
-        self.events[id] = (name, item)
-
-    def get_event_by_opcode(self, opcode, is_ge_event):
-        for id, (name, event) in self.events.items():
-            if event.is_ge_event == is_ge_event:
-                opcode_specific_name = event.get_name_for_opcode( opcode )
-                if opcode_specific_name is not None:
-                    return (opcode_specific_name, event)
-        return None
 
 
 class Module(object):
@@ -79,27 +65,18 @@ class Module(object):
         self.output = output
 
         self.imports = []
-        self.direct_imports = []
-        self.import_level = 0
         self.types = {}
         self.events = {}
         self.errors = {}
         self.all = []
 
-        # dict of namespaces by ext_name
-        self.namespaces = {}
-        # enter the main namespace here
-        self.namespaces[self.namespace.ext_name] = self.namespace
-
         # Register some common types
         self.add_type('CARD8', '', ('uint8_t',), tcard8)
         self.add_type('CARD16', '', ('uint16_t',), tcard16)
         self.add_type('CARD32', '', ('uint32_t',), tcard32)
-        self.add_type('CARD64', '', ('uint64_t',), tcard64)
         self.add_type('INT8', '', ('int8_t',), tint8)
         self.add_type('INT16', '', ('int16_t',), tint16)
         self.add_type('INT32', '', ('int32_t',), tint32)
-        self.add_type('INT64', '', ('int64_t',), tint64)
         self.add_type('BYTE', '', ('uint8_t',), tcard8)
         self.add_type('BOOL', '', ('uint8_t',), tcard8)
         self.add_type('char', '', ('char',), tchar)
@@ -113,9 +90,7 @@ class Module(object):
 
     # Recursively resolve all types
     def resolve(self):
-        self.add_events_to_namespaces()
         for (name, item) in self.all:
-            self.pads = 0
             item.resolve(self)
 
     # Call all the output methods
@@ -129,10 +104,7 @@ class Module(object):
 
     # Keeps track of what's been imported so far.
     def add_import(self, name, namespace):
-        if self.import_level == 0:
-            self.direct_imports.append((name, namespace.header))
         self.imports.append((name, namespace.header))
-        self.namespaces[namespace.ext_name] = namespace
 
     def has_import(self, name):
         for (name_, header) in self.imports:
@@ -170,9 +142,6 @@ class Module(object):
     def get_type_name(self, id):
         return self.get_type_impl(id, 0)
 
-    def get_namespace(self, ext_name):
-        return self.namespaces[ext_name]
-
     # Keeps track of request datatypes
     def add_request(self, id, name, item):
         if name[:-1] == self.namespace.prefix:
@@ -183,23 +152,6 @@ class Module(object):
         self.events[id] = (name, item)
         if name[:-1] == self.namespace.prefix:
             self.all.append((name, item))
-
-
-    def add_events_to_namespaces(self):
-        # add to its namespace object
-        for id, (name,item) in self.events.items():
-            if name[:-1] == ('xcb',):
-                # core event
-                namespace_name = ''
-            else:
-                # extension event
-                namespace_name = name[-2]
-
-            namespace = self.namespaces[namespace_name]
-
-            if namespace is not None:
-                namespace.add_event(id, name, item)
-
 
     def get_event(self, id):
         return self.events[id][1]
