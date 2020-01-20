@@ -2,8 +2,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(0)")}
 
 Name:           xcb-proto
-Version:        1.11
-Release:        1%{?dist}
+Version:        1.12
+Release:        2%{?dist}
 Summary:        XCB protocol descriptions
 
 Group:          Development/Libraries
@@ -46,6 +46,18 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/xcbgen
 
 %changelog
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.12-2
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
+* Wed May 18 2016 Adam Jackson <ajax@redhat.com> - 1.12-1
+- xcb-proto 1.12
+
+* Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed Oct 01 2014 Adam Jackson <ajax@redhat.com> 1.11-1
 - xcb-proto 1.11
 
